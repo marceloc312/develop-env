@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  dbmysql-cad:
+    container_name: db-mysql
+    image: db_mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senha1234
+    build:
+      context: ../mysql
+      dockerfile: Dockerfile
+    ports:
+      - "3306:3306"
+    networks:
+      - docker-network
+networks:
+  docker-network:
+    driver: bridge

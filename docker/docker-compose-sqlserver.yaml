@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  dbmssql:
+    container_name: mssql
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: Myp4ssw0rd!
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+    networks:
+      - docker-network
+networks:
+  docker-network:
+    driver: bridge
