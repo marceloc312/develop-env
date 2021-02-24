@@ -23,20 +23,6 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - docker-network      
-  mysql:
-    container_name: mysql
-    image: db_mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: senha1234
-    build:
-      context: ../mysql
-      dockerfile: Dockerfile
-    ports:
-      - "3306:3306"
-    networks:
       - docker-network
 volumes:
   elasticsearch-data:
