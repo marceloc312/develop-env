@@ -1,8 +1,6 @@
 
-api:
-	docker-compose -f ./docker/docker-compose-api.yaml stop
-	docker-compose -f ./docker/docker-compose-api.yaml build
-	docker-compose -f ./docker/docker-compose-api.yaml up -d
+mongo-up:
+	docker-compose -f ./docker/docker-compose-mongo.yaml up -d
 
 logs:
 	docker-compose -f ./docker/docker-compose-logs.yaml stop
