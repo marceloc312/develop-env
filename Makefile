@@ -1,31 +1,35 @@
+mssql-up:
+	docker-compose -f ./docker/docker-compose-sqlserver.yaml up -d
+mssql-start:
+	docker start mssql
 
 mongo-up:
 	docker-compose -f ./docker/docker-compose-mongo.yaml up -d
+mongo-start:
+	docker start mongo
 
-logs:
+mongo-up:
+	docker-compose -f ./docker/docker-compose-redis.yaml up -d
+mongo-start:
+	docker start redis
+
+logs-up:
 	docker-compose -f ./docker/docker-compose-logs.yaml stop
 	docker-compose -f ./docker/docker-compose-logs.yaml build
 	docker-compose -f ./docker/docker-compose-logs.yaml up -d
-	
-db:
-	docker-compose -f ./docker/docker-compose-db.yaml stop
-	docker-compose -f ./docker/docker-compose-db.yaml build
-	docker-compose -f ./docker/docker-compose-db.yaml up -d
 
-infra:
-	make db
-	make logs
-	
-init:
-	make infra
-	make api
-	
-start:
-	docker start db-mysql
-	docker start cadastro_cliente_api
+logs-start:
 	docker start elasticsearch
 	docker start kibana
-	
+
+mysql-up:
+	docker-compose -f ./docker/docker-compose-mysql.yaml stop
+	docker-compose -f ./docker/docker-compose-mysql.yaml build
+	docker-compose -f ./docker/docker-compose-mysql.yaml up -d
+
+mysql-start:
+	docker start mysql
+
 stop:
 	docker stop cadastro_cliente_api
 	docker stop kibana
@@ -35,12 +39,10 @@ stop:
 reset:
 	make stop
 	#remove os containers
-	docker rm cadastro_cliente_api
 	docker rm kibana
 	docker rm elasticsearch
-	docker rm db-mysql
+	docker rm mysql
 	#remove as imagens
-	docker rmi cadastro_cliente_api
 	docker rmi db_mysql
 
 #--->> KUBERNETES
