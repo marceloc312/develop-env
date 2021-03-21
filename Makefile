@@ -1,26 +1,38 @@
 mssql-up:
 	docker-compose -f ./docker/docker-compose-sqlserver.yaml up -d
+	
 mssql-start:
 	docker start mssql
 
 mongo-up:
 	docker-compose -f ./docker/docker-compose-mongo.yaml up -d
+	
 mongo-start:
 	docker start mongo
 
-mongo-up:
+redis-up:
 	docker-compose -f ./docker/docker-compose-redis.yaml up -d
-mongo-start:
+	
+redis-start:
 	docker start redis
 
-logs-up:
-	docker-compose -f ./docker/docker-compose-logs.yaml stop
-	docker-compose -f ./docker/docker-compose-logs.yaml build
+logsup:
 	docker-compose -f ./docker/docker-compose-logs.yaml up -d
 
 logs-start:
 	docker start elasticsearch
 	docker start kibana
+
+logsstop:
+	docker stop kibana
+	docker stop elasticsearch
+	
+logsreset:
+	make stoplogs
+	docker rm kibana
+	docker rm elasticsearch
+	
+	docker volume rm docker_elasticsearch-data
 
 mysql-up:
 	docker-compose -f ./docker/docker-compose-mysql.yaml stop
@@ -30,12 +42,7 @@ mysql-up:
 mysql-start:
 	docker start mysql
 
-stop:
-	docker stop cadastro_cliente_api
-	docker stop kibana
-	docker stop elasticsearch
-	docker stop db-mysql
-	
+
 reset:
 	make stop
 	#remove os containers

@@ -1,0 +1,9 @@
+{
+    "index": {
+        "lifecycle": {
+            "name": "logs-freightverifygm",
+            "indexing_complete": true,
+            "rollover_alias": "freightverifygm2020"
+        }
+    }
+} 

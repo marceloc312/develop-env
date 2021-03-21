@@ -1,0 +1,21 @@
+
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "name": "delete-logs-after-30d",
+          "rollover_alias": "tegma-cisa-carimba-pdf-delete",
+          "indexing_complete": "true"
+        }
+      }
+    },
+    "aliases": {
+      "tegma-cisa-carimba-pdf-delete": {}
+    }
+  },
+  "index_patterns": [
+    "tegma-cisa-carimba-pdf-*"
+  ],
+  "composed_of": []
+}
