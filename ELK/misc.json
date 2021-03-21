@@ -1,4 +1,14 @@
-
+POST /_aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "tegma-cisa-carimba-pdf-2020.09.*",
+        "alias": "tegma-cisa-carimba-pdf"
+      }
+    }
+  ]
+}
 /*CRIA POLICY*/
 PUT _ilm/policy/delete-logs-after-30d
 {
@@ -25,7 +35,6 @@ PUT _ilm/policy/delete-logs-after-30d
     }
   }
 }
-
 /*CRIAR TEMPLATE*/
 PUT _index_template/log-tegma-cisa-carimba-pdf
 {
@@ -49,15 +58,126 @@ PUT _index_template/log-tegma-cisa-carimba-pdf
   "composed_of": []
 }
 
-
 /*APLICA A POLICY DE EXCLUSÃO PARA OS INDICES DESEJADOS*/
 PUT freightverifygm-service-2021*/_settings 
 {
-    "index": {
-        "lifecycle": {
-            "name": "logs-freightverifygm",
-            "indexing_complete": true,
-            "rollover_alias": "freightverifygm2020"
-        }
+  "index": {
+    "lifecycle": {
+      "name": "logs-freightverifygm",
+      "indexing_complete": true,
+      "rollover_alias": "tegma-cisa-carimba-pdf"
     }
-} 
+  }
+}
+
+
+
+
+
+
+
+PUT _ilm/policy/delete-logs-after-30d-
+{
+  "policy": {
+    "phases": {
+      "delete": {
+        "min_age": "30d",
+        "actions": {
+          "delete": {}
+        }
+      },
+      "hot": {
+        "min_age": "1d",
+        "actions": {
+          "rollover": {
+            "max_age": "30d",
+            "max_size": "1gb"
+          },
+          "set_priority": {
+            "priority": 100
+          }
+        }
+      }
+    }
+  }
+}
+
+
+POST /_aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "tegma-cisa-carimba-pdf-2020.09.*",
+        "alias": "tegma-cisa-carimba-pdf"
+      }
+    }
+  ]
+}
+
+PUT tegma-cisa-carimba-pdf-2020.10.*/_settings
+{
+  "aliases":{
+    "delete-write":{
+      "is_write_index": true
+    }
+  }
+}
+
+PUT tegma-cisa-carimba-pdf-2020.09.*/_settings
+{
+  "index": {
+    "lifecycle": {
+      "name": "delete-logs-after-30d",
+      "indexing_complete": true,
+      "rollover_alias": "tegma-cisa-carimba-pdf"
+    }
+  }
+}
+
+{
+  "version": true,
+  "size": 500,
+  "sort": [],
+  "fields": [],
+  "script_fields": {},
+  "stored_fields": [
+    "*"
+  ],
+  "_source": {
+    "excludes": []
+  },
+  "query": {
+    "bool": {
+      "must": [],
+      "filter": [
+        {
+          "bool": {
+            "should": [
+              {
+                "match": {
+                  "level": "Warning"
+                }
+              }
+            ],
+            "minimum_should_match": 1
+          }
+        }
+      ],
+      "should": [],
+      "must_not": []
+    }
+  },
+  "highlight": {
+    "pre_tags": [
+      "@kibana-highlighted-field@"
+    ],
+    "post_tags": [
+      "@/kibana-highlighted-field@"
+    ],
+    "fields": {
+      "*": {}
+    },
+    "fragment_size": 2147483647
+  }
+}

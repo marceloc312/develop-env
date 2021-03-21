@@ -1,4 +1,16 @@
+"tegma-cisa-carimba-pdf-*",
+"controlepatio-api-*",
+"freightverifygm-service-*",
+"importacaorotas-api-*",
+"nespresso-sp-cubometro-service-*"
 
+
+tegma-cisa-carimba-pdf-
+importacaorotas-api-
+nespresso-sp-cubometro-service-
+
+
+PUT _index_template/delete-logs-after-30d"
 {
   "template": {
     "settings": {
@@ -10,9 +22,9 @@
         }
       }
     },
-    "number_of_shards": "1",
-    "auto_expand_replicas": "0-1",
-    "number_of_replicas": "0"
+    "aliases": {
+      "tegma-cisa-carimba-pdf-delete": {}
+    }
   },
   "index_patterns": [
     "tegma-cisa-carimba-pdf-*",

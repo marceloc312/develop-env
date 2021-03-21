@@ -16,8 +16,20 @@ redis-up:
 redis-start:
 	docker start redis
 
+logsclusterup:
+	#grep vm.max_map_count /etc/sysctl.conf
+	#vm.max_map_count=262144
+	docker-compose -f ./docker/docker-compose-logs-multi-cluster.yaml up -d
+
 logsup:
 	docker-compose -f ./docker/docker-compose-logs.yaml up -d
+
+logsclstart:
+	docker start es01
+	docker start es02
+	docker start es03
+	docker start kibana
+
 
 logs-start:
 	docker start elasticsearch
@@ -28,7 +40,7 @@ logsstop:
 	docker stop elasticsearch
 	
 logsreset:
-	make stoplogs
+	make logsstop
 	docker rm kibana
 	docker rm elasticsearch
 	

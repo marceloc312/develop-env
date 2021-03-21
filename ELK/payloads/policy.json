@@ -8,8 +8,8 @@
           }
         },
         "hot": {
+          "min_age": "0ms",
           "actions": {
-            "min_age": "0ms",
             "rollover": {
               "max_age": "30d",
               "max_size": "1gb"

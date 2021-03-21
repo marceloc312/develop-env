@@ -24,7 +24,7 @@ body: aplicar-a-index-existentes.json
 {
     "index": {
         "lifecycle": {
-            "name": "logs-freightverifygm",
+            "name": "delete-logs-after-30d",
             "indexing_complete": true,
             "rollover_alias": "freightverifygm2020"
         }
@@ -32,3 +32,7 @@ body: aplicar-a-index-existentes.json
 } 
 ```
 
+## Politicas de Logs
+* Information - 1 semana
+* Warning - 2 semanas
+* Error - 1 mês

@@ -1,0 +1,46 @@
+POST /_aliases
+{
+  "actions": [
+    {
+      "add": {
+        "index": "tegma-cisa-carimba-pdf-2020.09.*",
+        "alias": "tegma-cisa-carimba-pdf"
+      }
+    }
+  ]
+}
+
+/*APLICA A POLICY DE EXCLUSÃO PARA OS INDICES DESEJADOS*/
+PUT cliente-sync*/_settings 
+{
+  "index": {
+    "lifecycle": {
+      "name": "limpeza-imediata",
+      "indexing_complete": true,
+      "rollover_alias": "limpeza-imediata"
+    }
+  }
+}
+
+
+PUT _ilm/policy/limpeza-imediata
+{
+  "policy": {
+    "phases": {
+      "delete": {
+        "min_age": "1m",
+        "actions": {
+          "delete": {}
+        }
+      },
+      "hot": {
+        "min_age": "0ms",
+        "actions": {
+          "set_priority": {
+            "priority": 5
+          }
+        }
+      }
+    }
+  }
+}
